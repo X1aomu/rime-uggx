@@ -1,0 +1,37 @@
+# vim: set et sts=2 sw=2:
+# encoding: utf-8
+
+schema:
+  schema_id: uggx.phrases
+  name: 郑码〔仅词组〕
+  version: '1.0'
+  author:
+    - X1aomu
+  description: |
+    本方案不保证能正常工作，请勿直接使用。
+    本方案存在的目的是供「郑码」方案使用经本方案编译出来的二进制字典文件。
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - table_translator
+  filters:
+    - uniquifier
+
+translator:
+  dictionary: uggx.phrases
+
