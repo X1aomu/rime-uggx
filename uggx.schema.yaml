@@ -131,7 +131,7 @@ phrase_translator:
 
 # 手动造词翻译器，当输入含有 "'" 时生效
 make_dict:
-  __include: translator
+  __include: user_dict_translator
   initial_quality: 10
   enable_sentence: true
   tips: '〔自造词〕'
