@@ -16,7 +16,7 @@ encoder:
       formula: "AaAbBaBb"
     - length_equal: 3
       formula: "AaBaBbCa"
-    - length_equal: [4, 10]
+    - length_in_range: [4, 10]
       formula: "AaBaYaZa"
 import_tables:
   # - uggx.phrases
