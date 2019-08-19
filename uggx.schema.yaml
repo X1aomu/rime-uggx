@@ -121,6 +121,7 @@ user_dict_translator:
   enable_user_dict: true
   enable_encoder: true
   encode_commit_history: true # 如果不需要使用上屏历史自动成词，设为 false
+  max_phrase_length: 10 # 自造词长度。文档说这是针对 preset_vocabulary 的，不过实测对用户自造词的选用亦有影响
 
 # 预置词组翻译器，这个只给出词组，优先级最低
 phrase_translator:
