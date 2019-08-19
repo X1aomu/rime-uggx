@@ -24,8 +24,8 @@ schema:
       + aa 开头可打出符号，详见 uggx.symbols.dict.yaml
 
   dependencies:
-    - pinyin_simp
-    - uggx.phrases # 为了使用预置的短语字典，还要控制其出字优先级，目前只能加上这方案的信赖
+    - pinyin_simp # 反查所需依赖
+    - uggx.phrases # 为了使用预置的短语字典，还要控制其出字优先级，目前只能加上这方案的依赖
 
 switches:
   - name: ascii_mode
@@ -94,7 +94,7 @@ key_binder:
 speller:
   delimiter: "'"
   max_code_length: 4 # 设置最大码长 开启此选项可以实现顶字上屏
-  auto_select: false # 自动上屏
+  auto_select: false # 是否自动上屏
   auto_clear: max_length # 输入全码长无候选时自动清空
   # auto_select_unique_candidate: true # 配合上面一项使用，三码无重自动上屏码。注：这个似乎已经失效
   # auto_select_pattern: "" # 自動上屏規則，以正則表達式描述，當輸入串可以被匹配時自動頂字上屏。
@@ -102,29 +102,33 @@ speller:
 punctuator:
   __include: symbols:/punctuator
 
+# 默认的单字翻译器，这个只给出单字，优先级最高
 translator:
   initial_quality: 1000000 # 调整编译器出字的优先度
   dictionary: uggx # 词库的设置请看 uggx.dict.yaml
   db_class: userdb # 设定用户词典类型，可设 tabledb〔文本〕或 userdb〔二进制〕
   enable_charset_filter: true # 开启字符集过滤
   enable_user_dict: false # 是否開啓用戶詞典〔用戶詞典記錄動態字詞頻、用戶詞〕
-  enable_encoder: false # 自造词
-  encode_commit_history: false # 對已上屛詞自動成詞
+  enable_encoder: false # 是否自造词
+  encode_commit_history: false # 是否對已上屛詞自動成詞
   enable_sentence: false # 连打
   enable_completion: true # 逐键提示
 
+# 用户词典翻译器，这个会给出用户词典（来自上屏历史记录与手动造词）里的词语，优先级介于单字和预置词组之间
 user_dict_translator:
   __include: translator
   initial_quality: 10000
   enable_user_dict: true
   enable_encoder: true
-  encode_commit_history: true
+  encode_commit_history: true # 如果不需要使用上屏历史自动成词，设为 false
 
+# 预置词组翻译器，这个只给出词组，优先级最低
 phrase_translator:
   __include: translator
   initial_quality: 100
   dictionary: uggx.phrases
 
+# 手动造词翻译器，当输入含有 "'" 时生效
 make_dict:
   __include: translator
   initial_quality: 10
@@ -132,16 +136,18 @@ make_dict:
   tips: '〔自造词〕'
   tag: make_dict
 
+# 反查翻译器，以 ` 开头时生效
 pinyin_simp:
   __include: pinyin_simp.schema:/translator
   prefix: '`'
   tips: '〔拼音〕'
   tag: pinyin_simp # 必要
 
+# 反查过滤器，给出反查编码提示
 pinyin_simp_reverse_lookup:
   tags: [ pinyin_simp ] # 掛在這個 tag 所對應的翻譯器上
   overwrite_comment: false
-  dictionary: uggx # 反查所得爲蒼頡碼
+  dictionary: uggx # 反查所用字典
   comment_format:
     - 'xform/$/〕/'
     - 'xform/^/〔/'
