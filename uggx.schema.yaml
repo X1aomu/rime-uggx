@@ -31,13 +31,15 @@ schema:
 
 switches:
   - name: ascii_mode
-    states: [ 中文, 西文 ]
+    states: [ 中文, 英文 ]
   - name: full_shape
     states: [ 半角, 全角 ]
   # - name: simplification
   #   states: [ 漢字, 汉字 ]
-  - name: extended_charset
-    states: [ 常用, 增廣 ]
+  # - name: extended_charset
+  #   states: [ 常用, 增廣 ]
+  - options: [ gb2312, utf8 ]
+    states: [ GB2312, UTF-8 ]
   - name: ascii_punct
     states: [ 。，, ．， ]
 
@@ -70,9 +72,8 @@ engine:
     - script_translator@pinyin_simp
   filters:
     # - simplifier # 用字转换
-    - charset_filter # 字符集过滤
+    - charset_filter@gb2312
     - uniquifier # 去重
-    # - cjk_minifier # 用于 script_translater，搭配 extended_charset 使用
     - reverse_lookup_filter@pinyin_simp_reverse_lookup
     # - single_char_filter # 单字过滤器，屏蔽词组
 
@@ -112,7 +113,7 @@ translator:
   initial_quality: 1000000 # 调整编译器出字的优先度
   dictionary: uggx # 词库的设置请看 uggx.dict.yaml
   db_class: userdb # 设定用户词典类型，可设 tabledb〔文本〕或 userdb〔二进制〕
-  enable_charset_filter: true # 开启字符集过滤
+  enable_charset_filter: false # 关闭字符集过滤，相应功能由 charset_filter@xxx 代替
   enable_user_dict: false # 是否開啓用戶詞典〔用戶詞典記錄動態字詞頻、用戶詞〕
   enable_encoder: false # 是否自造词
   encode_commit_history: false # 是否對已上屛詞自動成詞
