@@ -90,9 +90,9 @@ charset_filter:
 recognizer:
   import_preset: default
   patterns:
-    punct: '^/([a-z]*|[0-9]|10)$'
-    make_dict: "^.*'.*$" # 含 "'" 时启用手动造词
-    pinyin_simp: "^`[a-z']*$" # 反查引導鍵 以 ` 开头
+    punct: '^/([0-9]10?|[A-Za-z]+)$'
+    make_dict: "^[a-z]+'.+$" # 含 "'" 时启用手动造词
+    pinyin_simp: "`[a-z']*$" # 反查引導鍵 以 ` 开头
 
 key_binder:
   import_preset: default
