@@ -92,7 +92,7 @@ recognizer:
 
 key_binder:
   __include: default:/key_binder
-  __append:
+  bindings:
     # 回车清屏
     - { when: composing, accept: Return, send: Escape }
     # 设置分号为选择第二候选
