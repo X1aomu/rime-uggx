@@ -34,14 +34,17 @@ switches:
     states: [ 中文, 英文 ]
   - name: full_shape
     states: [ 半角, 全角 ]
+    reset: 0
   # - name: simplification
   #   states: [ 漢字, 汉字 ]
   # - name: extended_charset
   #   states: [ 常用, 增廣 ]
   - options: [ gb2312, utf8 ]
-    states: [ GB2312, UTF-8 ]
+    states: [ 常用字, 全字集 ]
+    reset: 0
   - name: ascii_punct
     states: [ 。，, ．， ]
+    reset: 0
 
 engine:
   processors:
