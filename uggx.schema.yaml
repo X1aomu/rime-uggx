@@ -88,14 +88,14 @@ charset_filter:
   tags: [ abc ]
 
 recognizer:
-  __include: default:/recognizer
+  import_preset: default
   patterns:
     punct: '^/([a-z]*|[0-9]|10)$'
     make_dict: "^.*'.*$" # 含 "'" 时启用手动造词
     pinyin_simp: "^`[a-z']*$" # 反查引導鍵 以 ` 开头
 
 key_binder:
-  __include: default:/key_binder
+  import_preset: default
   bindings:
     # 回车清屏
     - { when: composing, accept: Return, send: Escape }
@@ -109,7 +109,7 @@ speller:
   auto_clear: max_length # 输入全码长无候选时自动清空
 
 punctuator:
-  __include: symbols:/punctuator
+  import_preset: symbols
 
 # 默认的单字翻译器，这个只给出单字，优先级最高
 translator:
