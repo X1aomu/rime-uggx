@@ -22,6 +22,8 @@ schema:
       + 使用分词符 "'" 可自造词
       + "`" 开头进入拼音反查模式
       + aa 开头可打出符号，详见 uggx.symbols.dict.yaml
+      + 回车清屏
+      + 分号选择第二候选词
 
   dependencies:
     - pinyin_simp # 反查所需依赖
@@ -90,14 +92,17 @@ recognizer:
 
 key_binder:
   __include: default:/key_binder
+  __append:
+    # 回车清屏
+    - { when: composing, accept: Return, send: Escape }
+    # 设置分号为选择第二候选
+    - { when: has_menu, accept: semicolon, send: 2 }
 
 speller:
   delimiter: "'"
   max_code_length: 4 # 设置最大码长 开启此选项可以实现顶字上屏
   auto_select: false # 是否自动上屏
   auto_clear: max_length # 输入全码长无候选时自动清空
-  # auto_select_unique_candidate: true # 配合上面一项使用，三码无重自动上屏码。注：这个似乎已经失效
-  # auto_select_pattern: "" # 自動上屏規則，以正則表達式描述，當輸入串可以被匹配時自動頂字上屏。
 
 punctuator:
   __include: symbols:/punctuator
