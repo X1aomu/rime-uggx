@@ -18,9 +18,6 @@ encoder:
       formula: "AaBaBbCa"
     - length_in_range: [4, 10]
       formula: "AaBaYaZa"
-import_tables:
-  # - uggx.phrases
-  - uggx.symbols
 ...
 
 一	a	av

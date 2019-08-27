@@ -5,7 +5,7 @@
 schema:
   schema_id: uggx
   name: 郑码
-  version: '1.2.7'
+  version: '1.2.8'
   author:
     - X1aomu
   description: |
@@ -22,7 +22,6 @@ schema:
       + 自动根据上屏历史造词
       + 使用分词符 "'" 可自造词
       + "`" 开头进入拼音反查模式
-      + aa 开头可打出符号，详见 uggx.symbols.dict.yaml
       + 回车清屏
       + 分号选择第二候选词
       + GB2312、GBK、UTF-8 三种字符集过滤
