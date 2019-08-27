@@ -1,6 +1,7 @@
 # vim: set et sts=2 sw=2:
 # encoding: utf-8
 
+---
 schema:
   schema_id: uggx
   name: 郑码
@@ -27,24 +28,24 @@ schema:
       + GB2312、GBK、UTF-8 三种字符集过滤
 
   dependencies:
-    - pinyin_simp # 反查所需依赖
-    - uggx.phrases # 为了使用预置的短语字典，还要控制其出字优先级，目前只能加上这方案的依赖
+    - pinyin_simp  # 反查所需依赖
+    - uggx.phrases  # 为了使用预置的短语字典，还要控制其出字优先级，目前只能加上这方案的依赖
 
 switches:
   - name: ascii_mode
-    states: [ 中文, 英文 ]
+    states: [中文, 英文]
   - name: full_shape
-    states: [ 半角, 全角 ]
+    states: [半角, 全角]
     reset: 0
   # - name: simplification
   #   states: [ 漢字, 汉字 ]
   # - name: extended_charset
   #   states: [ 常用, 增廣 ]
-  - options: [ gb2312, gbk, utf8 ]
-    states: [ GB2312 , GBK, UTF-8 ]
+  - options: [gb2312, gbk, utf8]
+    states: [GB2312, GBK, UTF-8]
     reset: 1
   - name: ascii_punct
-    states: [ 。，, ．， ]
+    states: [。，, ．，]
     reset: 0
 
 engine:
@@ -77,7 +78,7 @@ engine:
   filters:
     # - simplifier # 用字转换
     - charset_filter@gb2312
-    - uniquifier # 去重
+    - uniquifier  # 去重
     - reverse_lookup_filter@pinyin_simp_reverse_lookup
     # - single_char_filter # 单字过滤器，屏蔽词组
 
@@ -91,23 +92,23 @@ engine:
 recognizer:
   import_preset: default
   patterns:
-    punct: '^/([0-9]|10|[A-Za-z]+)$' # / 开头识别为符号。
-    make_dict: "^[a-z]+'.+$" # 含 "'" 时启用手动造词
-    pinyin_simp: "`[a-z']*$" # 反查引導鍵 以 ` 开头
+    punct: '^/([0-9]|10|[A-Za-z]+)$'  # / 开头识别为符号。
+    make_dict: "^[a-z]+'.+$"  # 含 "'" 时启用手动造词
+    pinyin_simp: "`[a-z']*$"  # 反查引導鍵 以 ` 开头
 
 key_binder:
   import_preset: default
   bindings:
     # 回车清屏
-    - { when: composing, accept: Return, send: Escape }
+    - {when: composing, accept: Return, send: Escape}
     # 设置分号为选择第二候选
-    - { when: has_menu, accept: semicolon, send: 2 }
+    - {when: has_menu, accept: semicolon, send: 2}
 
 speller:
   delimiter: "'"
-  max_code_length: 4 # 设置最大码长 开启此选项可以实现顶字上屏
-  auto_select: false # 是否自动上屏
-  auto_clear: max_length # 输入全码长无候选时自动清空
+  max_code_length: 4  # 设置最大码长 开启此选项可以实现顶字上屏
+  auto_select: false  # 是否自动上屏
+  auto_clear: max_length  # 输入全码长无候选时自动清空
 
 punctuator:
   # 注意：「常用字」过滤器会过滤掉许多符号。
@@ -116,15 +117,15 @@ punctuator:
 
 # 默认的单字翻译器，这个只给出单字，优先级最高
 translator:
-  initial_quality: 1000000 # 调整编译器出字的优先度
-  dictionary: uggx # 词库的设置请看 uggx.dict.yaml
-  db_class: userdb # 设定用户词典类型，可设 tabledb〔文本〕或 userdb〔二进制〕
-  enable_charset_filter: false # 关闭字符集过滤，相应功能由 charset_filter@xxx 代替
-  enable_user_dict: false # 是否開啓用戶詞典〔用戶詞典記錄動態字詞頻、用戶詞〕
-  enable_encoder: false # 是否自造词
-  encode_commit_history: false # 是否對已上屛詞自動成詞
-  enable_sentence: false # 连打
-  enable_completion: true # 逐键提示
+  initial_quality: 1000000  # 调整编译器出字的优先度
+  dictionary: uggx  # 词库的设置请看 uggx.dict.yaml
+  db_class: userdb  # 设定用户词典类型，可设 tabledb〔文本〕或 userdb〔二进制〕
+  enable_charset_filter: false  # 关闭字符集过滤，相应功能由 charset_filter@xxx 代替
+  enable_user_dict: false  # 是否開啓用戶詞典〔用戶詞典記錄動態字詞頻、用戶詞〕
+  enable_encoder: false  # 是否自造词
+  encode_commit_history: false  # 是否對已上屛詞自動成詞
+  enable_sentence: false  # 连打
+  enable_completion: true  # 逐键提示
 
 # 用户词典翻译器，这个会给出用户词典（来自上屏历史记录与手动造词）里的词语，优先级介于单字和预置词组之间
 user_dict_translator:
@@ -132,8 +133,8 @@ user_dict_translator:
   initial_quality: 10000
   enable_user_dict: true
   enable_encoder: true
-  encode_commit_history: true # 如果不需要使用上屏历史自动成词，设为 false
-  max_phrase_length: 10 # 自造词长度。文档说这是针对 preset_vocabulary 的，不过实测对用户自造词的选用亦有影响
+  encode_commit_history: true  # 如果不需要使用上屏历史自动成词，设为 false
+  max_phrase_length: 10  # 自造词长度。文档说这是针对 preset_vocabulary 的，不过实测对用户自造词的选用亦有影响
 
 # 预置词组翻译器，这个只给出词组，优先级最低
 phrase_translator:
@@ -154,14 +155,13 @@ pinyin_simp:
   __include: pinyin_simp.schema:/translator
   prefix: '`'
   tips: '〔拼音〕'
-  tag: pinyin_simp # 必要
+  tag: pinyin_simp  # 必要
 
 # 反查过滤器，给出反查编码提示
 pinyin_simp_reverse_lookup:
-  tags: [ pinyin_simp ] # 掛在這個 tag 所對應的翻譯器上
+  tags: [pinyin_simp]  # 掛在這個 tag 所對應的翻譯器上
   overwrite_comment: false
-  dictionary: uggx # 反查所用字典
+  dictionary: uggx  # 反查所用字典
   comment_format:
     - 'xform/$/〕/'
     - 'xform/^/〔/'
-
