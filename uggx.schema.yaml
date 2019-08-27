@@ -5,7 +5,7 @@
 schema:
   schema_id: uggx
   name: 郑码
-  version: '1.2.8'
+  version: '1.2.9'
   author:
     - X1aomu
   description: |
@@ -77,6 +77,7 @@ engine:
   filters:
     # - simplifier # 用字转换
     - charset_filter@gb2312
+    - charset_filter@gbk
     - uniquifier  # 去重
     - reverse_lookup_filter@pinyin_simp_reverse_lookup
     # - single_char_filter # 单字过滤器，屏蔽词组
