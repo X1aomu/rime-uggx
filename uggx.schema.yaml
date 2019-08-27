@@ -4,7 +4,7 @@
 schema:
   schema_id: uggx
   name: 郑码
-  version: '1.2.6'
+  version: '1.2.7'
   author:
     - X1aomu
   description: |
@@ -24,6 +24,7 @@ schema:
       + aa 开头可打出符号，详见 uggx.symbols.dict.yaml
       + 回车清屏
       + 分号选择第二候选词
+      + GB2312、GBK、UTF-8 三种字符集过滤
 
   dependencies:
     - pinyin_simp # 反查所需依赖
@@ -39,9 +40,9 @@ switches:
   #   states: [ 漢字, 汉字 ]
   # - name: extended_charset
   #   states: [ 常用, 增廣 ]
-  - options: [ gb2312, utf8 ]
-    states: [ 常用字, 全字集 ]
-    reset: 0
+  - options: [ gb2312, gbk, utf8 ]
+    states: [ GB2312 , GBK, UTF-8 ]
+    reset: 1
   - name: ascii_punct
     states: [ 。，, ．， ]
     reset: 0
