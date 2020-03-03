@@ -17,7 +17,7 @@ encoder:
     - length_equal: 3
       formula: "AaBaBbCa"
     - length_in_range: [4, 10]
-      formula: "AaBaYaZa"
+      formula: "AaBaCaDa"
 ...
 
 一	a	av
