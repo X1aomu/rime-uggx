@@ -53,7 +53,7 @@ switches:
   #   states: [ 漢字, 汉字 ]
   # - name: extended_charset
   #   states: [ 常用, 增廣 ]
-  - options: [gb2312, gbk, utf8]
+  - options: [gb2312+emoji, gbk+emoji, utf8]
     states: [GB2312, GBK, UTF-8]
     reset: 0
   - name: ascii_punct
