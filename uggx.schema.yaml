@@ -5,7 +5,7 @@
 schema:
   schema_id: uggx
   name: 郑码
-  version: '1.3.0'
+  version: '1.4.0'
   author:
     - X1aomu
   description: |
@@ -55,7 +55,7 @@ switches:
   #   states: [ 常用, 增廣 ]
   - options: [gb2312, gbk, utf8]
     states: [GB2312, GBK, UTF-8]
-    reset: 1
+    reset: 0
   - name: ascii_punct
     states: [。，, ．，]
     reset: 0
@@ -90,8 +90,8 @@ engine:
     - script_translator@pinyin_simp
   filters:
     # - simplifier # 用字转换
-    - charset_filter@gb2312
-    - charset_filter@gbk
+    - charset_filter@gb2312+emoji
+    - charset_filter@gbk+emoji
     - uniquifier  # 去重
     - reverse_lookup_filter@pinyin_simp_reverse_lookup
     # - single_char_filter # 单字过滤器，屏蔽词组
