@@ -1,0 +1,103 @@
+# vim: set et sts=2 sw=2:
+# encoding: utf-8
+
+---
+schema:
+  schema_id: uggx_fluency
+  name: 连郑
+  version: '1.0.0'
+  author:
+    - X1aomu
+  description: |
+    郑码连打模式
+  dependencies:
+    - pinyin_simp  # 反查所需依赖
+
+switches:
+  - name: ascii_mode
+    states: [中, Ａ]
+  - name: full_shape
+    states: [半, 全]
+    reset: 0
+  - name: ascii_punct
+    states: [。，, ．，]
+    reset: 0
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - affix_segmentor@make_dict
+    - affix_segmentor@pinyin_simp
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    # - echo_translator #没有其他候选字时，回显输入码〔输入码可以Shift+Enter上屛〕
+    - punct_translator
+    - table_translator
+    # - reverse_lookup_translator # 反查。弃用，用 filters/reverse_lookup_filter 替代
+    - script_translator@pinyin_simp
+  filters:
+    - uniquifier  # 去重
+    - reverse_lookup_filter@pinyin_simp_reverse_lookup
+    # - single_char_filter # 单字过滤器，屏蔽词组
+
+recognizer:
+  import_preset: default
+  patterns:
+    punct: '^/([0-9]|10|[A-Za-z]+)$'  # / 开头识别为符号。
+    pinyin_simp: "`[a-z']*$"  # 反查引導鍵 以 ` 开头
+
+key_binder:
+  import_preset: default
+  bindings:
+    # 回车清屏
+    - {when: composing, accept: Return, send: Escape}
+    # 设置分号为选择第二候选
+    - {when: has_menu, accept: semicolon, send: 2}
+
+speller:
+  delimiter: "'"
+
+punctuator:
+  # 注意：「GB2312」等过滤器会过滤掉许多符号。
+  # 使用符号时推荐使用「UTF-8」开关
+  import_preset: symbols
+
+# 默认的单字翻译器，这个只给出单字，优先级最高
+translator:
+  dictionary: uggx_fluency  # 词库的设置请看 uggx.dict.yaml
+  db_class: userdb  # 设定用户词典类型，可设 tabledb〔文本〕或 userdb〔二进制〕
+  enable_charset_filter: false  # 关闭字符集过滤，相应功能由 charset_filter@xxx 代替
+  enable_user_dict: true  # 是否開啓用戶詞典〔用戶詞典記錄動態字詞頻、用戶詞〕
+  enable_encoder: true  # 是否自造词
+  encode_commit_history: true  # 是否對已上屛詞自動成詞
+  enable_sentence: true  # 连打
+  enable_completion: true  # 逐键提示
+  max_phrase_length: 6  # 自造词长度，同时影响下面的 user_dict_encoder 与 history_encoder
+
+# 反查翻译器，以 ` 开头时生效
+pinyin_simp:
+  __include: pinyin_simp.schema:/translator
+  prefix: '`'
+  tips: '〔拼音〕'
+  tag: pinyin_simp  # 必要
+
+# 反查过滤器，给出反查编码提示
+pinyin_simp_reverse_lookup:
+  tags: [pinyin_simp]  # 掛在這個 tag 所對應的翻譯器上
+  overwrite_comment: false
+  dictionary: uggx  # 反查所用字典
+  comment_format:
+    - 'xform/$/〕/'
+    - 'xform/^/〔/'
