@@ -19,6 +19,9 @@ switches:
   - name: full_shape
     states: [半, 全]
     reset: 0
+  - name: extended_charset
+    states: [常用, 增广]
+    reset: 0
   - name: ascii_punct
     states: [。，, ．，]
     reset: 0
@@ -68,6 +71,9 @@ key_binder:
 
 speller:
   delimiter: "'"
+  max_code_length: 4  # 设置最大码长 开启此选项可以实现顶字上屏
+  auto_select: false  # 是否自动上屏
+  auto_clear: max_length  # 输入全码长无候选时自动清空
 
 punctuator:
   # 注意：「GB2312」等过滤器会过滤掉许多符号。
@@ -78,7 +84,7 @@ punctuator:
 translator:
   dictionary: uggx_fluency  # 词库的设置请看 uggx.dict.yaml
   db_class: userdb  # 设定用户词典类型，可设 tabledb〔文本〕或 userdb〔二进制〕
-  enable_charset_filter: false  # 关闭字符集过滤，相应功能由 charset_filter@xxx 代替
+  enable_charset_filter: true  # CJK 扩展字符过滤器
   enable_user_dict: true  # 是否開啓用戶詞典〔用戶詞典記錄動態字詞頻、用戶詞〕
   enable_encoder: true  # 是否自造词
   encode_commit_history: true  # 是否對已上屛詞自動成詞
