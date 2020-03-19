@@ -71,7 +71,7 @@ key_binder:
 
 speller:
   delimiter: "'"
-  max_code_length: 0  # 设置最大码长 开启此选项可以实现顶字上屏
+  max_code_length: 4  # 设置最大码长 开启此选项可以实现顶字上屏
   auto_select: false  # 是否自动上屏
   auto_clear: max_length  # 输入全码长无候选时自动清空
 
