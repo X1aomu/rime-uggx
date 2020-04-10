@@ -70,8 +70,8 @@ key_binder:
     - {when: has_menu, accept: semicolon, send: 2}
 
 speller:
-  delimiter: "'"
-  max_code_length: 4  # 设置最大码长 开启此选项可以实现顶字上屏
+  delimiter: " '"
+  max_code_length: 0  # 设置最大码长 开启此选项可以实现顶字上屏
   auto_select: false  # 是否自动上屏
   auto_clear: max_length  # 输入全码长无候选时自动清空
 
@@ -101,7 +101,9 @@ pinyin_simp:
 
 # 反查过滤器，给出反查编码提示
 pinyin_simp_reverse_lookup:
-  tags: [pinyin_simp]  # 掛在這個 tag 所對應的翻譯器上
+  # 掛在這個 tag 所對應的翻譯器上
+  # 注：abc 是默认 translator 的 tag，效果为显示出一个字所有可能的编码
+  tags: [abc, pinyin_simp]
   overwrite_comment: false
   dictionary: uggx  # 反查所用字典
   comment_format:
