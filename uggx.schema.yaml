@@ -33,7 +33,7 @@ schema:
 
     小提示：
 
-      + 可使用分词符 "'" 进行用户自造词（由 librime 功能所限，造词时只可使用预置单字和用户字典里的词语，预置词组不可用）
+      + 可使用大写字母「X」开头进行用户自造词（由 librime 功能所限，造词时只可使用预置单字和用户字典里的词语，预置词组不可用）
       + Ctrl + Delete 可以删除不要的词组（仅限上面出字优先级列表中的第 2 和第 4 项）
       + 按回车可清屏
       + 可使用分号选择第二候选词
@@ -79,7 +79,7 @@ engine:
     - punct_segmentor
     - fallback_segmentor
   translators:
-    # - echo_translator #没有其他候选字时，回显输入码〔输入码可以Shift+Enter上屛〕
+    # - echo_translator # 没有其他候选字时，回显输入码〔输入码可以Shift+Enter上屛〕
     - punct_translator
     - table_translator
     - table_translator@user_dict_encoder  # 如果不需要使用用户字典，即只使用预置词典，请注释此行
@@ -104,12 +104,11 @@ engine:
 #   tags: [ abc ]
 
 recognizer:
-  import_preset: default
   patterns:
-    punct: '^/([0-9]|10|[A-Za-z]+)$'  # / 开头识别为符号。
-    # make_dict: "^[a-z]+'.+$"  # 含 "'" 时启用手动造词
-    make_dict: "X[a-z']*$"  # 含 "'" 时启用手动造词
-    pinyin_simp: "`[a-z']*$"  # 反查引導鍵 以 ` 开头
+    punct: '^/([0-9]|10|[A-Za-z]+)$'  # 「/」开头识别为符号。
+    uppercase: "[A-Z][-_+.0-9A-Za-z]*$"  # 从预置中剔除「'」以避免与 make_dict 冲突
+    make_dict: "^X[a-z']*$"  # 以「X」时启用手动造词
+    pinyin_simp: "`[a-z']*$"  # 反查引導鍵以「`」开头
 
 key_binder:
   import_preset: default
@@ -122,7 +121,7 @@ key_binder:
 speller:
   delimiter: " '"
   max_code_length: 4  # 设置最大码长 开启此选项可以实现顶字上屏
-  auto_select: false  # 是否自动上屏
+  auto_select: false  # 候选唯一时是否自动上屏
   auto_clear: max_length  # 输入全码长无候选时自动清空
 
 punctuator:
@@ -163,7 +162,7 @@ history_encoder:
   enable_user_dict: true  # 本开关需开启，否则 encode_commit_history 选项不起作用
   encode_commit_history: true
 
-# 手动造词翻译器，当输入含有 "'" 时生效
+# 手动造词翻译器，以「X」开头时生效
 make_dict:
   __include: translator
   initial_quality: 10
@@ -172,7 +171,7 @@ make_dict:
   tips: '〔自造词〕'
   tag: make_dict
 
-# 反查翻译器，以 ` 开头时生效
+# 反查翻译器，以「`」开头时生效
 pinyin_simp:
   __include: pinyin_simp.schema:/translator
   prefix: '`'
