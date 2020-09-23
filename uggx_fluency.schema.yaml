@@ -15,9 +15,10 @@ schema:
 
 switches:
   - name: ascii_mode
-    states: [中, Ａ]
+    states: [中文, 英文]
+    reset: 0
   - name: full_shape
-    states: [半, 全]
+    states: [半角, 全角]
     reset: 0
   - name: extended_charset
     states: [常用, 增广]
@@ -109,3 +110,7 @@ pinyin_simp_reverse_lookup:
   comment_format:
     - 'xform/$/〕/'
     - 'xform/^/〔/'
+
+__patch:
+  - emoji_suggestion:/patch?  # 尝试引入 emoji 提示（基于 opencc），见 rime-emoji 项目
+  - uggx_fluency.custom:/patch?  # 支持传统的 <config>.custom.yaml 文件
