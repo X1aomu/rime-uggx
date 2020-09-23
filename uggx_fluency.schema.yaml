@@ -77,8 +77,6 @@ speller:
   auto_clear: max_length  # 输入全码长无候选时自动清空
 
 punctuator:
-  # 注意：「GB2312」等过滤器会过滤掉许多符号。
-  # 使用符号时推荐使用「UTF-8」开关
   import_preset: symbols
 
 # 默认的单字翻译器，这个只给出单字，优先级最高
