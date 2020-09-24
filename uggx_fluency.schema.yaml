@@ -5,13 +5,15 @@
 schema:
   schema_id: uggx_fluency
   name: 连郑
-  version: '1.0.0'
+  version: '1.4.0'
   author:
     - X1aomu
   description: |
     郑码连打模式
   dependencies:
-    - pinyin_simp  # 反查所需依赖
+    - uggx
+    - uggx.phrases
+    - pinyin_simp
 
 switches:
   - name: ascii_mode
@@ -46,15 +48,13 @@ engine:
     - punct_segmentor
     - fallback_segmentor
   translators:
-    # - echo_translator #没有其他候选字时，回显输入码〔输入码可以Shift+Enter上屛〕
     - punct_translator
     - table_translator
-    # - reverse_lookup_translator # 反查。弃用，用 filters/reverse_lookup_filter 替代
+    - table_translator@phrase_encoder
     - script_translator@pinyin_simp
   filters:
     - uniquifier  # 去重
     - reverse_lookup_filter@pinyin_simp_reverse_lookup
-    # - single_char_filter # 单字过滤器，屏蔽词组
 
 recognizer:
   import_preset: default
@@ -79,9 +79,8 @@ speller:
 punctuator:
   import_preset: symbols
 
-# 默认的单字翻译器，这个只给出单字，优先级最高
 translator:
-  dictionary: uggx_fluency  # 词库的设置请看 uggx.dict.yaml
+  dictionary: uggx  # 词库的设置请看 uggx.dict.yaml
   db_class: userdb  # 设定用户词典类型，可设 tabledb〔文本〕或 userdb〔二进制〕
   enable_charset_filter: true  # CJK 扩展字符过滤器
   enable_user_dict: true  # 是否開啓用戶詞典〔用戶詞典記錄動態字詞頻、用戶詞〕
@@ -89,7 +88,11 @@ translator:
   encode_commit_history: true  # 是否對已上屛詞自動成詞
   enable_sentence: true  # 连打
   enable_completion: true  # 逐键提示
-  max_phrase_length: 6  # 自造词长度，同时影响下面的 user_dict_encoder 与 history_encoder
+  max_phrase_length: 4  # 自造词长度
+
+phrase_encoder:
+  __include: translator
+  dictionary: uggx.phrases
 
 # 反查翻译器，以 ` 开头时生效
 pinyin_simp:
