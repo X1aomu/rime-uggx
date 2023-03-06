@@ -6,6 +6,11 @@
 
 「uggx」为「郑码」之郑码。
 
+### 依赖
+
++ [rime-pinyin-simp](https://github.com/rime/rime-pinyin-simp) - 拼音反查
++ [rime-emoji](https://github.com/rime/rime-emoji)（可选） - Emoji 候选
+
 ### 特点
 
 + 4 码顶字上屏
